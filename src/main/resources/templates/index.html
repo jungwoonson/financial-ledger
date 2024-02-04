@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -21,19 +21,27 @@
                 el.maxLength = maxLength;
                 el.value = String(props.value);
 
-
                 this.el = el;
             }
 
             getElement() {
+                console.log("1");
+                console.log(this.el);
                 return this.el;
             }
 
             getValue() {
-                return this.el.value;
+                console.log("2");
+                console.log(this.el.value);
+
+                const value = 1000000000;
+
+                return value.toLocaleString('ko-KR');
             }
 
             mounted() {
+                console.log("3");
+                console.log(this.el);
                 this.el.select();
             }
         }

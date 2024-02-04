@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>회계장부</title>
+
+    <link rel="stylesheet" th:href="@{/css/tui-grid.css}"/>
+    <link rel="stylesheet" th:href="@{/css/tui-date-picker.css}"/>
+    <link rel="stylesheet" th:href="@{/css/tui-time-picker.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/tui-grid.js}" defer></script>
+<!--    <script type="text/javascript" th:src="@{/js/tui-date-picker.js}" defer></script>-->
+<!--    <script type="text/javascript" th:src="@{/js/tui-time-picker.js}" defer></script>-->
+    <script src="https://uicdn.toast.com/tui.time-picker/v2.0.3/tui-time-picker.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/v4.1.0/tui-date-picker.js"></script>
+</head>
+<body>
+<div id="top-menu" th:fragment="top-menu">
+    <ul>
+        <li><a th:href="@{/income}">수입 내역</a></li>
+        <li><a th:href="@{/#}">지출 내역</a></li>
+        <!-- 더 많은 메뉴 항목 추가 -->
+    </ul>
+</div>
+
+<th:block layout:fragment="content"></th:block>
+
+<footer th:fragment="footer">
+    <p>&copy; 2024 jyoons. All rights reserved.</p>
+</footer>
+</body>
+</html>
