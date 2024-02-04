@@ -1,26 +1,3 @@
-class CustomTextEditor {
-    constructor(props) {
-        const el = document.createElement('input');
-
-        el.type = 'text';
-        el.value = String(!!!props.value ? '0' : props.value);
-
-        this.el = el;
-    }
-
-    getElement() {
-        return this.el;
-    }
-
-    getValue() {
-        return this.el.value
-    }
-
-    mounted() {
-        this.el.select();
-    }
-}
-
 const grid = new tui.Grid({
     el: document.getElementById('grid'),
     data: [], // 여기에 데이터를 채웁니다
@@ -29,38 +6,25 @@ const grid = new tui.Grid({
     rowHeaders: ['rowNum'],
     columns: [
         {
-            header: '날짜',
-            name: 'date',
-            editor: 'datePicker',
-        },
-        {
-            header: '성명(입금인)',
-            name: 'person_name',
-            editor: CustomTextEditor,
-            validation: {
-                regExp: /^[1-9][0-9]*$/
-            },
-            onBeforeChange(ev) {
-                console.log('Before change:' + ev.value);
-            },
-            onAfterChange(ev) {
-                console.log(ev);
-                console.log('After change:' + ev.value);
-            },
-        },
-        {
-            header: '금액',
-            name: 'amount',
+            header: '주',
+            name: 'week',
             editor: 'text'
         },
         {
-            header: '내용',
-            name: 'details',
+            header: '기부금',
+            name: 'donations',
+            editor: {
+                type: 'datePicker',
+            },
+        },
+        {
+            header: '판매',
+            name: 'sales',
             editor: 'text'
         },
         {
-            header: '구분',
-            name: 'category',
+            header: '총 수입',
+            name: 'totalIncome',
             editor: 'text'
         }
     ],

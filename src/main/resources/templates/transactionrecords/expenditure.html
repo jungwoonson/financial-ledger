@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div th:replace="/layout :: top-menu"></div>
+<div layout:fragment="content">
+    <h1 id="main-title">지출 내역</h1>
+    <div id="grid"></div>
+
+    <script type="text/javascript" th:src="@{/js/transactionrecords/expenditure.js}" defer></script>
+</div>
+<div th:replace="/layout :: footer"></div>
+</body>
+</html>
+
