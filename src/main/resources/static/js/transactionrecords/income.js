@@ -1,4 +1,4 @@
-class CustomTextEditor {
+class AmountEditor {
     constructor(props) {
         const el = document.createElement('input');
 
@@ -36,7 +36,12 @@ const grid = new tui.Grid({
         {
             header: '성명(입금인)',
             name: 'person_name',
-            editor: CustomTextEditor,
+            editor: 'text',
+        },
+        {
+            header: '금액',
+            name: 'amount',
+            editor: AmountEditor,
             validation: {
                 regExp: /^[1-9][0-9]*$/
             },
@@ -47,11 +52,6 @@ const grid = new tui.Grid({
                 console.log(ev);
                 console.log('After change:' + ev.value);
             },
-        },
-        {
-            header: '금액',
-            name: 'amount',
-            editor: 'text'
         },
         {
             header: '내용',
@@ -68,16 +68,11 @@ const grid = new tui.Grid({
         height: 40,
         position: 'bottom',
         columnContent: {
-            sales: {
+            amount: {
                 template: function(valueMap) {
                     return `합계: ${valueMap.sum} 원`;
                 }
             },
-            totalIncome: {
-                template: function(valueMap) {
-                    return `합계: ${valueMap.sum} 원`;
-                }
-            }
         }
     }
 });
@@ -89,19 +84,14 @@ function loadData(data) {
 
 // 예제 데이터
 const weeklyIncomeData = [
-    {week: '1주', donations: '1995-07-21', sales: 500, totalIncome: 1500},
-    {week: '2주', donations: '1995-07-21', sales: 550, totalIncome: 1650},
+    {date: '1995-07-21', person_name: '홍길동', amount: 500, details: 1500, category:1},
+    {date: '1995-07-21', person_name: '홍길동', amount: 400, details: 1400, category:2},
     // 필요에 따라 더 많은 데이터를 추가
 ];
 
 // 그리드에 데이터 로드
 loadData(weeklyIncomeData);
 
-grid.appendRow();
-grid.appendRow();
-grid.appendRow();
-grid.appendRow();
-grid.appendRow();
-grid.appendRow();
-grid.appendRow();
-grid.appendRow();
+function appendRow() {
+    grid.appendRow();
+}
