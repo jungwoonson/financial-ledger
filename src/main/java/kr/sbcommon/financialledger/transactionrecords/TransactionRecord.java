@@ -13,19 +13,19 @@ public class TransactionRecord {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category")
     private String category;
 
     @Column(name = "person_name")
     private String personName;
 
-    @Column(name = "details", nullable = false)
+    @Column(name = "details")
     private String details;
 
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
@@ -40,5 +40,5 @@ public class TransactionRecord {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDateTime;
 
-    
+
 }

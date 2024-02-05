@@ -66,7 +66,7 @@ footer {
 }
 
 .btn-append {
-    background-color: #875959; /* 세련된 붉은색 */
+    background-color: #1B5E20; /* 더 어두운 녹색으로 변경 */
     color: white;
     padding: 10px 20px;
     text-align: center;
@@ -81,13 +81,13 @@ footer {
 }
 
 .btn-append:hover {
-    background-color: #D32F2F; /* 호버 시 조금 더 진한 붉은색 */
+    background-color: #165A1B; /* 호버 시 더욱 진하고 어두운 녹색으로 변경 */
     transform: translateY(-2px); /* 버튼이 약간 위로 움직이는 효과 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 추가 */
 }
 
 .btn-append:active {
-    background-color: #C62828; /* 클릭 시 더 진한 붉은색 */
+    background-color: #0F3F14; /* 클릭 시 가장 진한 녹색으로 변경 */
     transform: translateY(1px); /* 클릭 시 버튼이 약간 아래로 움직이는 효과 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 조정 */
 }
