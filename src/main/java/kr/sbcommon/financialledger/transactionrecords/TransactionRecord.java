@@ -1,12 +1,17 @@
 package kr.sbcommon.financialledger.transactionrecords;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "transaction_records")
 public class TransactionRecord {
+
+    public static final String IN = "IN";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,12 +38,26 @@ public class TransactionRecord {
     private String inOrOut;
 
     @Column(name = "create_datetime", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @CreationTimestamp
     private Date createDateTime;
 
     @Column(name = "update_datetime", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updateDateTime;
 
+    public TransactionRecord() {
+    }
 
+    private TransactionRecord(String inOrOut) {
+        this.inOrOut = inOrOut;
+    }
+
+    public static TransactionRecord createIncomeRecord() {
+        return new TransactionRecord(IN);
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

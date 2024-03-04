@@ -29,6 +29,11 @@ const grid = new tui.Grid({
     rowHeaders: ['rowNum'],
     columns: [
         {
+            header: 'id',
+            name: 'id',
+            editor: 'text',
+        },
+        {
             header: '날짜',
             name: 'date',
             editor: 'datePicker',
@@ -46,6 +51,7 @@ const grid = new tui.Grid({
                 regExp: /^[1-9][0-9]*$/
             },
             onBeforeChange(ev) {
+                console.log(ev);
                 console.log('Before change:' + ev.value);
             },
             onAfterChange(ev) {
@@ -83,15 +89,31 @@ function loadData(data) {
 }
 
 // 예제 데이터
-const weeklyIncomeData = [
-    {date: '1995-07-21', person_name: '홍길동', amount: 500, details: 1500, category:1},
-    {date: '1995-07-21', person_name: '홍길동', amount: 400, details: 1400, category:2},
-    // 필요에 따라 더 많은 데이터를 추가
-];
+const incomeData = [];
 
 // 그리드에 데이터 로드
-loadData(weeklyIncomeData);
+loadData(incomeData);
+
+// grid.hideColumn('id');
 
 function appendRow() {
-    grid.appendRow();
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/income/newid');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            grid.appendRow({id: xhr.response, date: nowDate(), person_name: '', amount: 0, details: '', category: 1});
+            return;
+        }
+        alert('문제가 발생했습니다.');
+    }
+}
+
+function nowDate() {
+    const date = new Date();
+    const currYear = date.getFullYear();
+    const currMonth = date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    const currDate = date.getDate() < 9 ? '0' + date.getDate() : date.getDate();
+    return `${currYear}-${currMonth}-${currDate}`;
 }
