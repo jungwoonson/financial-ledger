@@ -23,6 +23,8 @@ dependencies {
     implementation("com.mysql:mysql-connector-j")
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
     implementation("com.h2database:h2:2.2.224")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3")
