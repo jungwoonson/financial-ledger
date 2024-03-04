@@ -88,19 +88,31 @@ function loadData(data) {
     grid.resetData(data);
 }
 
-// 예제 데이터
-const incomeData = [];
+function findIncomeData() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/income/2024/3');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log(JSON.parse(xhr.response));
+            loadData(JSON.parse(xhr.response));
+            return;
+        }
+        alert('문제가 발생했습니다.');
+    }
+}
 
 // 그리드에 데이터 로드
-loadData(incomeData);
+findIncomeData();
 
 // grid.hideColumn('id');
 
 function appendRow() {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/income/newid');
+    xhr.open('POST', '/income');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send();
+    xhr.send(JSON.stringify({year: 2024, month: 3, date: 4}));
     xhr.onload = function () {
         if (xhr.status === 200) {
             grid.appendRow({id: xhr.response, date: nowDate(), person_name: '', amount: 0, details: '', category: 1});

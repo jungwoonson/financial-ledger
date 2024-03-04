@@ -1,14 +1,19 @@
 package kr.sbcommon.financialledger.transactionrecords;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.sql.Date;
 
 @Entity
 @Table(name = "transaction_records")
+@Getter
 public class TransactionRecord {
 
     public static final String IN = "IN";
@@ -49,12 +54,17 @@ public class TransactionRecord {
     public TransactionRecord() {
     }
 
-    private TransactionRecord(String inOrOut) {
+    private TransactionRecord(String inOrOut, Date date) {
         this.inOrOut = inOrOut;
+        this.date = date;
+        this.category = "1";
+        this.amount = new BigDecimal(0);
+        this.personName = "";
+        this.details = "";
     }
 
-    public static TransactionRecord createIncomeRecord() {
-        return new TransactionRecord(IN);
+    public static TransactionRecord createIncomeRecord(Date date) {
+        return new TransactionRecord(IN, date);
     }
 
     public Long getId() {
