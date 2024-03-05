@@ -6,7 +6,11 @@
 <body>
 <div th:replace="/layout :: top-menu"></div>
 <div layout:fragment="content">
-    <h1 id="main-title">수입 내역</h1>
+    <div class="income-header">
+        <button class="arrow left-arrow" onclick="moveToPreviousMonth()">&#10094;</button>
+        <button id="month-title">3월<span id="year-title">(2024)</span> 수입 내역</button>
+        <button class="arrow right-arrow" onclick="moveToNextMonth()">&#10095;</button>
+    </div>
     <div id="grid"></div>
     <div class="bottom-button-container">
         <button type="button" class="btn-remove" onclick="removeRow()">행삭제</button>
