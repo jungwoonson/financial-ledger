@@ -1,12 +1,13 @@
 body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #F5F5F5; /* 밝은 회색으로 변경 */
-    color: #333; /* 어두운 회색으로 텍스트 색상 조정 */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0; /* body 마진 제거 */
 }
 
 .content {
-    padding-left: 20px;
-    padding-right: 20px;
+    flex: 1; /* 컨텐츠가 화면을 채우도록 설정 */
+    padding: 20px; /* 적절한 패딩 설정 */
 }
 
 #top-menu {
@@ -54,15 +55,12 @@ body {
 }
 
 footer {
-    text-align: center;
     padding: 20px 0;
-    border-top: 2px solid #BDBDBD; /* 경계선 색상 조정 */
-    background-color: #E0E0E0; /* 밝은 회색 */
+    text-align: center;
+    border-top: 2px solid #BDBDBD;
+    background-color: #E0E0E0;
     color: #424242;
     font-size: 0.8em;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 
 .btn-append {
