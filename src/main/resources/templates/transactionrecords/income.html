@@ -9,6 +9,7 @@
     <h1 id="main-title">수입 내역</h1>
     <div id="grid"></div>
     <div class="bottom-button-container">
+        <button type="button" class="btn-remove" onclick="removeRow()">행삭제</button>
         <button type="button" class="btn-append" onclick="appendRow()">행추가</button>
     </div>
     <script type="text/javascript" th:src="@{/js/transactionrecords/income.js}" defer></script>

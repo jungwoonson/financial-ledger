@@ -92,8 +92,79 @@ footer {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 조정 */
 }
 
+.btn-remove {
+    background-color: #9a2020; /* 더 어두운 녹색으로 변경 */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px; /* 약간 둥근 모서리 */
+    transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.btn-remove:hover {
+    background-color: #671818; /* 호버 시 더욱 진하고 어두운 녹색으로 변경 */
+    transform: translateY(-2px); /* 버튼이 약간 위로 움직이는 효과 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 추가 */
+}
+
+.btn-remove:active {
+    background-color: #3f0f0f; /* 클릭 시 가장 진한 녹색으로 변경 */
+    transform: translateY(1px); /* 클릭 시 버튼이 약간 아래로 움직이는 효과 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 조정 */
+}
+
 .bottom-button-container {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+}
+
+.toast {
+    /* 기타 스타일 설정 유지 */
+    top: 20px; /* 상단에서의 위치 */
+    right: 20px; /* 우측에서의 위치 */
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    position: fixed;
+    z-index: 1;
+    font-size: 17px;
+    transition: opacity 0.5s, top 0.5s ease;
+    opacity: 0; /* 초기에는 투명 */
+
+    padding: 16px 16px 14px;
+}
+
+.toast-progress-container {
+    width: 100%;
+    background-color: #ccc;
+    height: 4px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.toast-progress {
+    height: 4px;
+    background-color: #00ff00; /* 형광 녹색 */
+    width: 0;
+    transition: width 3s linear;
+}
+
+.toast.show {
+    opacity: 1;
+    top: 30px; /* 약간 아래로 이동 */
+}
+
+.toast.hide {
+    opacity: 0;
+    top: 20px; /* 원래 위치로 이동 */
 }
