@@ -96,7 +96,6 @@ function findIncomeData(year, month) {
     xhr.send();
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log(JSON.parse(xhr.response));
             loadData(JSON.parse(xhr.response));
             return;
         }
@@ -104,36 +103,28 @@ function findIncomeData(year, month) {
     }
 }
 
-const date = new Date();
-// 그리드에 데이터 로드
-findIncomeData(date.getFullYear(), date.getMonth() + 1);
-changeTitle(date.getFullYear(), date.getMonth() + 1);
-
-// grid.hideColumn('id');
-
 function appendRow() {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/income');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({year: 2024, month: 3, date: 4}));
+    const date = titleDate();
+    xhr.send(JSON.stringify({year: date.getFullYear(), month: date.getMonth() + 1, date: date.getDate()}));
     xhr.onload = function () {
         if (xhr.status === 200) {
-            grid.appendRow({id: xhr.response, date: nowDate(), person_name: '', amount: 0, details: '', category: 1});
+            grid.appendRow({id: xhr.response, date: currentDate(), person_name: '', amount: 0, details: '', category: 1});
             return;
         }
         alert('문제가 발생했습니다.');
     }
 }
 
-function nowDate() {
-    const date = new Date();
+function currentDate() {
+    const date = titleDate();
     const currYear = date.getFullYear();
     const currMonth = date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
     const currDate = date.getDate() < 9 ? '0' + date.getDate() : date.getDate();
     return `${currYear}-${currMonth}-${currDate}`;
 }
-
-const yearMonthModal = new createYearMonthModal(yearMonthPickerEvent, document.getElementById('year-title'));
 
 function yearMonthPickerEvent(year, month) {
     findIncomeData(year, month);
@@ -141,17 +132,14 @@ function yearMonthPickerEvent(year, month) {
 }
 
 function moveToPreviousMonth() {
-    const monthNumber = document.getElementById('month-number');
-    const yearTitle = document.getElementById('year-title');
-    const date = new Date(Number(yearTitle.innerText), Number(monthNumber.innerText) - 1, 1);
+    const date = titleDate();
     date.setMonth(date.getMonth() - 1);
     findIncomeData(date.getFullYear(), date.getMonth() + 1);
     changeTitle(date.getFullYear(), date.getMonth() + 1);
 }
+
 function moveToNextMonth() {
-    const monthNumber = document.getElementById('month-number');
-    const yearTitle = document.getElementById('year-title');
-    const date = new Date(Number(yearTitle.innerText), Number(monthNumber.innerText) - 1, 1);
+    const date = titleDate()
     date.setMonth(date.getMonth() + 1);
     findIncomeData(date.getFullYear(), date.getMonth() + 1);
     changeTitle(date.getFullYear(), date.getMonth() + 1);
@@ -163,3 +151,20 @@ function changeTitle(year, month) {
     monthNumber.innerHTML = month;
     yearTitle.innerHTML = `${year}`;
 }
+
+function titleDate() {
+    const monthNumber = document.getElementById('month-number');
+    const yearTitle = document.getElementById('year-title');
+    const date = new Date();
+    const titleDate = new Date(Number(yearTitle.innerText), Number(monthNumber.innerText) - 1, 1);
+    if (date.getFullYear() === titleDate.getFullYear() && date.getMonth() === titleDate.getMonth()) {
+        return date;
+    }
+    return titleDate;
+}
+
+const date = new Date();
+findIncomeData(date.getFullYear(), date.getMonth() + 1);
+changeTitle(date.getFullYear(), date.getMonth() + 1);
+const yearMonthModal = new createYearMonthModal(yearMonthPickerEvent, document.getElementById('year-title'));
+grid.hideColumn('id');
