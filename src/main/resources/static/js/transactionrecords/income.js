@@ -4,6 +4,12 @@ class AmountEditor {
 
         el.type = 'text';
         el.value = String(!!!props.value ? '0' : props.value);
+        el.onkeyup = (event) => {
+            el.value = amountReplace(el.value);
+        }
+        el.onpaste = () => {
+            el.value = amountReplace(el.value);
+        }
 
         this.el = el;
     }
@@ -13,13 +19,22 @@ class AmountEditor {
     }
 
     getValue() {
-        return this.el.value
+        return this.el.value;
     }
 
     mounted() {
         this.el.select();
     }
 }
+
+function amountReplace(prevValue) {
+    let value = String(prevValue).replace(/\D/g, "");
+    if (value.startsWith('0') && value.length > 1) {
+        value = value.replace('0', '');
+    }
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 
 const grid = new tui.Grid({
     el: document.getElementById('grid'),
@@ -37,6 +52,7 @@ const grid = new tui.Grid({
             header: '날짜',
             name: 'date',
             editor: 'datePicker',
+            align: 'center',
             onAfterChange(ev) {
                 updateDateValue(grid.getValue(ev.rowKey, 'id'), ev.value);
             },
@@ -45,6 +61,7 @@ const grid = new tui.Grid({
             header: '성명(입금인)',
             name: 'person_name',
             editor: 'text',
+            align: 'center',
             onAfterChange(ev) {
                 updateNameValue(grid.getValue(ev.rowKey, 'id'), ev.value);
             },
@@ -52,26 +69,26 @@ const grid = new tui.Grid({
         {
             header: '금액',
             name: 'amount',
+            align: 'right',
             editor: AmountEditor,
-            validation: {
-                regExp: /^(0|[1-9][0-9]*)$/
-            },
             onAfterChange(ev) {
-                console.log(ev);
                 if (!!!ev.value) {
                     showToast('금액을 입력해 주세요.');
                     return;
                 }
-                if (!/^(0|[1-9][0-9]*)$/.test(ev.value)) {
-                    showToast('숫자만 입력해 주세요.');
-                    return
+                const value = ev.value.replaceAll(',', '');
+                if (!/^(0|[1-9][0-9]*)$/.test(value)) {
+                    showToast('금액은 0으로 시작할 수 없습니다.');
+                    return;
                 }
-                updateAmountValue(grid.getValue(ev.rowKey, 'id'), ev.value);
+                updateAmountValue(grid.getValue(ev.rowKey, 'id'), value);
+                updateSummary();
             },
         },
         {
             header: '내용',
             name: 'details',
+            align: 'left',
             editor: 'text',
             onAfterChange(ev) {
                 updateDetailsValue(grid.getValue(ev.rowKey, 'id'), ev.value);
@@ -80,6 +97,7 @@ const grid = new tui.Grid({
         {
             header: '구분',
             name: 'category',
+            align: 'center',
             editor: 'text',
             onAfterChange(ev) {
                 updateCategoryValue(grid.getValue(ev.rowKey, 'id'), ev.value);
@@ -91,8 +109,9 @@ const grid = new tui.Grid({
         position: 'bottom',
         columnContent: {
             amount: {
+                useAutoSummary: false,
                 template: function(valueMap) {
-                    return `합계: ${valueMap.sum} 원`;
+                    return `합계: 0 원`;
                 }
             },
         }
@@ -112,7 +131,9 @@ function findIncomeData(year, month) {
     xhr.send();
     xhr.onload = function () {
         if (xhr.status === 200) {
-            loadData(JSON.parse(xhr.response));
+            const data = JSON.parse(xhr.response);
+            data.forEach(recode => recode.amount = amountReplace(recode.amount));
+            loadData(data);
             return;
         }
         showToast('문제가 발생했습니다.');
@@ -128,6 +149,7 @@ function appendRow() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             grid.appendRow({id: xhr.response, date: currentDate(), person_name: '', amount: 0, details: '', category: 1});
+            updateSummary();
             return;
         }
         showToast('문제가 발생했습니다.');
@@ -150,6 +172,7 @@ function removeRow() {
     xhr.onload = function () {
         if (xhr.status === 204) {
             grid.removeRow(grid.getFocusedCell().rowKey);
+            updateSummary();
             return;
         }
         showToast('문제가 발생했습니다.');
@@ -261,8 +284,23 @@ function updateAmountValue(id, value) {
     }
 }
 
+function updateSummary() {
+    grid.setSummaryColumnContent('amount', {
+        template(summary) {
+            let amounts = grid.getColumnValues('amount');
+            let sum = amounts
+                .map(it => Number(String(it).replaceAll(',', '')))
+                .reduce((a, b) => a + b, 0);
+            return `합계: ${amountReplace(sum)} 원`
+        }
+    });
+}
+
 const date = new Date();
+grid.hideColumn('id');
 findIncomeData(date.getFullYear(), date.getMonth() + 1);
 changeTitle(date.getFullYear(), date.getMonth() + 1);
 const yearMonthModal = new createYearMonthModal(yearMonthPickerEvent, document.getElementById('year-title'));
-// grid.hideColumn('id');
+updateSummary();
+
+

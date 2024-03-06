@@ -29,7 +29,8 @@ public class TransactionRecordService {
     public List<TransactionRecordDto> findIncomeRecords(int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-        List<TransactionRecord> transactionRecords = transactionRecordRepository.findTransactionRecordByDateBetween(Date.valueOf(startDate), Date.valueOf(endDate));
+        List<TransactionRecord> transactionRecords = transactionRecordRepository
+                .findTransactionRecordByDateBetweenOrderByDate(Date.valueOf(startDate), Date.valueOf(endDate));
 
         List<TransactionRecordDto> transactionRecordDtos = new ArrayList<>();
 
