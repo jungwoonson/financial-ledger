@@ -32,4 +32,11 @@ public class IncomeController {
     public ResponseEntity<Long> createIncome(@RequestBody CreateRecordRequestDto dto) {
         return ResponseEntity.ok(transactionRecordService.findNewIncomeRecordId(dto));
     }
+
+    @DeleteMapping("/income/{id}")
+    public ResponseEntity<Long> deleteIncome(@PathVariable Long id) {
+        transactionRecordService.delete(id);
+        return ResponseEntity.noContent()
+                .build();
+    }
 }

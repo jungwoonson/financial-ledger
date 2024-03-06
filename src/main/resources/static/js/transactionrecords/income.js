@@ -99,7 +99,7 @@ function findIncomeData(year, month) {
             loadData(JSON.parse(xhr.response));
             return;
         }
-        alert('문제가 발생했습니다.');
+        showToast('문제가 발생했습니다.');
     }
 }
 
@@ -114,7 +114,26 @@ function appendRow() {
             grid.appendRow({id: xhr.response, date: currentDate(), person_name: '', amount: 0, details: '', category: 1});
             return;
         }
-        alert('문제가 발생했습니다.');
+        showToast('문제가 발생했습니다.');
+    }
+}
+
+function removeRow() {
+    if (!!!grid.getFocusedCell().rowKey) {
+        showToast('삭제할 행을 선택해 주세요.');
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', `/income/${grid.getValue(grid.getFocusedCell().rowKey, 'id')}`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    const date = titleDate();
+    xhr.send();
+    xhr.onload = function () {
+        if (xhr.status === 204) {
+            grid.removeRow(grid.getFocusedCell().rowKey);
+            return;
+        }
+        showToast('문제가 발생했습니다.');
     }
 }
 
@@ -167,4 +186,4 @@ const date = new Date();
 findIncomeData(date.getFullYear(), date.getMonth() + 1);
 changeTitle(date.getFullYear(), date.getMonth() + 1);
 const yearMonthModal = new createYearMonthModal(yearMonthPickerEvent, document.getElementById('year-title'));
-grid.hideColumn('id');
+// grid.hideColumn('id');

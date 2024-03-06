@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionRecordService {
@@ -46,5 +47,12 @@ public class TransactionRecordService {
                 .details(record.getDetails())
                 .person_name(record.getPersonName())
                 .build();
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        TransactionRecord record = transactionRecordRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+        transactionRecordRepository.delete(record);
     }
 }
