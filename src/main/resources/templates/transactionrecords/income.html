@@ -7,9 +7,9 @@
 <div th:replace="/layout :: top-menu"></div>
 <div layout:fragment="content">
     <div class="income-header">
-        <button class="arrow left-arrow" onclick="moveToPreviousMonth()">&#10094;</button>
-        <button id="month-title">3월<span id="year-title">(2024)</span> 수입 내역</button>
-        <button class="arrow right-arrow" onclick="moveToNextMonth()">&#10095;</button>
+        <button class="arrow left-arrow" type="button" onclick="moveToPreviousMonth()">&#10094;</button>
+        <button th:class="month-title" type="button" onclick="yearMonthModal.openModal();"><span id="month-number">3</span>월<span th:class="year-title">(<span id="year-title">2024</span>)</span> 수입 내역</button>
+        <button class="arrow right-arrow" type="button" onclick="moveToNextMonth()">&#10095;</button>
     </div>
     <div id="grid"></div>
     <div class="bottom-button-container">

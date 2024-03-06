@@ -28,3 +28,48 @@ function showToast(message) {
         }, 500); // 투명해지는 동안 기다림
     }, 3000); // 3초 동안 표시
 }
+
+function createYearMonthModal(yearMonthCallBack, yearElement) {
+    const modalContainer = document.createElement('div');
+    modalContainer.classList.add('modal-container');
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modalContainer.appendChild(modalContent);
+
+    const closeButton = document.createElement('span');
+    closeButton.textContent = 'X';
+    closeButton.classList.add('close-button');
+    closeButton.onclick = () => modalContainer.style.display = 'none';
+    modalContent.appendChild(closeButton);
+
+    const yearSelect = document.createElement('select');
+    yearSelect.classList.add('year-select');
+    const currentYear = new Date().getFullYear();
+    for (let year = 2000; year <= currentYear + 10; year++) {
+        const option = new Option(year, year);
+        yearSelect.appendChild(option);
+    }
+    modalContent.appendChild(yearSelect);
+    yearSelect.value = yearElement.innerText;
+
+    for (let month = 1; month <= 12; month++) {
+        const monthButton = document.createElement('button');
+        monthButton.classList.add('month-button');
+        monthButton.textContent = `${month}월`;
+        monthButton.onclick = () => {
+            modalContainer.style.display = 'none';
+            yearMonthCallBack(yearSelect.value, month);
+        };
+        modalContent.appendChild(monthButton);
+    }
+
+    document.body.appendChild(modalContainer);
+
+    // 모달을 여는 함수
+    this.openModal = () => {
+        modalContainer.style.display = 'flex';
+        modalContainer.style.justifyContent = 'center';
+        modalContainer.style.alignItems = 'center';
+    };
+}
