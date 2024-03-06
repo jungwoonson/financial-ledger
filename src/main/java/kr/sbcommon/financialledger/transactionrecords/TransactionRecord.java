@@ -70,4 +70,24 @@ public class TransactionRecord {
     public Long getId() {
         return id;
     }
+
+    public void updateDate(Date date) {
+        this.date = date;
+    }
+
+    public void updateDetails(String detail) {
+        this.details = detail;
+    }
+
+    public void updateAmount(Long amount) {
+        this.amount = new BigDecimal(amount);
+    }
+
+    public void updatePersonName(String name) {
+        this.personName = name;
+    }
+
+    public void updateCategory(String category) {
+        this.category = category;
+    }
 }

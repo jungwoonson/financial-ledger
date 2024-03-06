@@ -3,6 +3,7 @@ package kr.sbcommon.financialledger.transactionrecords.income;
 import kr.sbcommon.financialledger.transactionrecords.CreateRecordRequestDto;
 import kr.sbcommon.financialledger.transactionrecords.TransactionRecordDto;
 import kr.sbcommon.financialledger.transactionrecords.TransactionRecordService;
+import kr.sbcommon.financialledger.transactionrecords.UpdateRecordRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,30 @@ public class IncomeController {
         transactionRecordService.delete(id);
         return ResponseEntity.noContent()
                 .build();
+    }
+
+    @PutMapping("/income/category")
+    public ResponseEntity<TransactionRecordDto> updateCategory(@RequestBody UpdateRecordRequestDto dto) {
+        return ResponseEntity.ok(transactionRecordService.updateCategory(dto));
+    }
+
+    @PutMapping("/income/name")
+    public ResponseEntity<TransactionRecordDto> updateName(@RequestBody UpdateRecordRequestDto dto) {
+        return ResponseEntity.ok(transactionRecordService.updatePersonName(dto));
+    }
+
+    @PutMapping("/income/amount")
+    public ResponseEntity<TransactionRecordDto> updateAmount(@RequestBody UpdateRecordRequestDto dto) {
+        return ResponseEntity.ok(transactionRecordService.updateAmount(dto));
+    }
+
+    @PutMapping("/income/details")
+    public ResponseEntity<TransactionRecordDto> updateDetails(@RequestBody UpdateRecordRequestDto dto) {
+        return ResponseEntity.ok(transactionRecordService.updateDetails(dto));
+    }
+
+    @PutMapping("/income/date")
+    public ResponseEntity<TransactionRecordDto> updateDate(@RequestBody UpdateRecordRequestDto dto) {
+        return ResponseEntity.ok(transactionRecordService.updateDate(dto));
     }
 }

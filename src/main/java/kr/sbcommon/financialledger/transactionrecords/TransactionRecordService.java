@@ -55,4 +55,44 @@ public class TransactionRecordService {
                 .orElseThrow(RuntimeException::new);
         transactionRecordRepository.delete(record);
     }
+
+    public TransactionRecordDto updateCategory(UpdateRecordRequestDto dto) {
+        TransactionRecord record = transactionRecordRepository.findById(dto.getId())
+                .orElseThrow(RuntimeException::new);
+        record.updateCategory(dto.getCategory());
+        TransactionRecord saved = transactionRecordRepository.save(record);
+        return createTransactionRecordDto(saved);
+    }
+
+    public TransactionRecordDto updatePersonName(UpdateRecordRequestDto dto) {
+        TransactionRecord record = transactionRecordRepository.findById(dto.getId())
+                .orElseThrow(RuntimeException::new);
+        record.updatePersonName(dto.getName());
+        TransactionRecord saved = transactionRecordRepository.save(record);
+        return createTransactionRecordDto(saved);
+    }
+
+    public TransactionRecordDto updateAmount(UpdateRecordRequestDto dto) {
+        TransactionRecord record = transactionRecordRepository.findById(dto.getId())
+                .orElseThrow(RuntimeException::new);
+        record.updateAmount(dto.getAmount());
+        TransactionRecord saved = transactionRecordRepository.save(record);
+        return createTransactionRecordDto(saved);
+    }
+
+    public TransactionRecordDto updateDetails(UpdateRecordRequestDto dto) {
+        TransactionRecord record = transactionRecordRepository.findById(dto.getId())
+                .orElseThrow(RuntimeException::new);
+        record.updateDetails(dto.getDetail());
+        TransactionRecord saved = transactionRecordRepository.save(record);
+        return createTransactionRecordDto(saved);
+    }
+
+    public TransactionRecordDto updateDate(UpdateRecordRequestDto dto) {
+        TransactionRecord record = transactionRecordRepository.findById(dto.getId())
+                .orElseThrow(RuntimeException::new);
+        record.updateDate(dto.getDate());
+        TransactionRecord saved = transactionRecordRepository.save(record);
+        return createTransactionRecordDto(saved);
+    }
 }

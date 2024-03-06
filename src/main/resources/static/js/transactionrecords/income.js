@@ -37,37 +37,53 @@ const grid = new tui.Grid({
             header: '날짜',
             name: 'date',
             editor: 'datePicker',
+            onAfterChange(ev) {
+                updateDateValue(grid.getValue(ev.rowKey, 'id'), ev.value);
+            },
         },
         {
             header: '성명(입금인)',
             name: 'person_name',
             editor: 'text',
+            onAfterChange(ev) {
+                updateNameValue(grid.getValue(ev.rowKey, 'id'), ev.value);
+            },
         },
         {
             header: '금액',
             name: 'amount',
             editor: AmountEditor,
             validation: {
-                regExp: /^[1-9][0-9]*$/
-            },
-            onBeforeChange(ev) {
-                console.log(ev);
-                console.log('Before change:' + ev.value);
+                regExp: /^(0|[1-9][0-9]*)$/
             },
             onAfterChange(ev) {
                 console.log(ev);
-                console.log('After change:' + ev.value);
+                if (!!!ev.value) {
+                    showToast('금액을 입력해 주세요.');
+                    return;
+                }
+                if (!/^(0|[1-9][0-9]*)$/.test(ev.value)) {
+                    showToast('숫자만 입력해 주세요.');
+                    return
+                }
+                updateAmountValue(grid.getValue(ev.rowKey, 'id'), ev.value);
             },
         },
         {
             header: '내용',
             name: 'details',
-            editor: 'text'
+            editor: 'text',
+            onAfterChange(ev) {
+                updateDetailsValue(grid.getValue(ev.rowKey, 'id'), ev.value);
+            },
         },
         {
             header: '구분',
             name: 'category',
-            editor: 'text'
+            editor: 'text',
+            onAfterChange(ev) {
+                updateCategoryValue(grid.getValue(ev.rowKey, 'id'), ev.value);
+            },
         }
     ],
     summary: {
@@ -121,6 +137,9 @@ function appendRow() {
 function removeRow() {
     if (!!!grid.getFocusedCell().rowKey) {
         showToast('삭제할 행을 선택해 주세요.');
+        return;
+    }
+    if (!confirm('정말 삭제하시겠습니까?')) {
         return;
     }
     const xhr = new XMLHttpRequest();
@@ -180,6 +199,66 @@ function titleDate() {
         return date;
     }
     return titleDate;
+}
+
+function updateCategoryValue(id, value) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `/income/category`, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({id: id, category: value}));
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            showToast('저장에 실패했습니다.');
+        }
+    }
+}
+
+function updateNameValue(id, value) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `/income/name`, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({id: id, name: value}));
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            showToast('저장에 실패했습니다.');
+        }
+    }
+}
+
+function updateDetailsValue(id, value) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `/income/details`, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({id: id, details: value}));
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            showToast('저장에 실패했습니다.');
+        }
+    }
+}
+
+function updateDateValue(id, value) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `/income/date`, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({id: id, date: value}));
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            showToast('저장에 실패했습니다.');
+        }
+    }
+}
+
+function updateAmountValue(id, value) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `/income/amount`, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({id: id, amount: value}));
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            showToast('저장에 실패했습니다.');
+        }
+    }
 }
 
 const date = new Date();
