@@ -84,7 +84,7 @@ public class TransactionRecordService {
     public TransactionRecordDto updateDetails(UpdateRecordRequestDto dto) {
         TransactionRecord record = transactionRecordRepository.findById(dto.getId())
                 .orElseThrow(RuntimeException::new);
-        record.updateDetails(dto.getDetail());
+        record.updateDetails(dto.getDetails());
         TransactionRecord saved = transactionRecordRepository.save(record);
         return createTransactionRecordDto(saved);
     }

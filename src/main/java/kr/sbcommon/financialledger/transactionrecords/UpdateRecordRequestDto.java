@@ -12,7 +12,7 @@ public class UpdateRecordRequestDto {
     private String category;
     private Long amount;
     private String name;
-    private String detail;
+    private String details;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 }
