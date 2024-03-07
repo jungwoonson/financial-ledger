@@ -114,7 +114,7 @@ function appendRow() {
 }
 
 function removeRow() {
-    if (!!!grid.getFocusedCell().rowKey) {
+    if (!!!grid.getFocusedCell().rowKey && grid.getFocusedCell().rowKey !== 0) {
         showToast('삭제할 행을 선택해 주세요.');
         return;
     }
