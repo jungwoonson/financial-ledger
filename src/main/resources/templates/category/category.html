@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div th:replace="/layout :: top-menu"></div>
+<div layout:fragment="content">
+    <h1 id="main-title">구분 관리</h1>
+
+    <section th:class="table-section">
+        <div class="section-name-input-container">
+            <label for="sectionName">구분 추가</label>
+            <input type="text" id="sectionName" name="sectionName" placeholder="구분 이름을 입력하세요">
+            <button type="submit">추가</button>
+        </div>
+        <div class="tab-menu">
+            <button class="tab-button active">수입 구분</button>
+            <button class="tab-button">지출 구분</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>순번</th>
+                    <th>구분 이름</th>
+                    <th>사용여부</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            조회된 구분이 없습니다.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+<div th:replace="/layout :: footer"></div>
+</body>
+</html>
