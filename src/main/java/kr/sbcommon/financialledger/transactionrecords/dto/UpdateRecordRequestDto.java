@@ -1,4 +1,4 @@
-package kr.sbcommon.financialledger.transactionrecords;
+package kr.sbcommon.financialledger.transactionrecords.dto;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
