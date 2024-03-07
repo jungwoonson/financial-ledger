@@ -104,6 +104,7 @@ public class TransactionRecordService {
                 .getId();
     }
 
+    @Transactional(readOnly = true)
     public List<TransactionRecordDto> findExpenditureRecords(int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());

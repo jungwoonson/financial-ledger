@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface TransactionRecordRepository extends JpaRepository<TransactionRecord, Long> {
 
     List<TransactionRecord> findTransactionRecordByDateBetweenAndTypeOrderByDate(Date date1, Date date2, String inOrOut);
