@@ -9,14 +9,13 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-@Table(name = "transaction_records")
+@Table(name = "fl_transaction_records")
 @Getter
 public class TransactionRecord {
 
     public static final String INCOME = "INCOME";
     public static final String EXPENDITURE = "EXPENDITURE";
 
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -42,7 +41,6 @@ public class TransactionRecord {
     private String type;
 
     @Column(name = "create_datetime", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @CreationTimestamp
     private Date createDateTime;
 
