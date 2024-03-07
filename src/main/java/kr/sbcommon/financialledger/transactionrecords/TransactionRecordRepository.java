@@ -11,5 +11,5 @@ import java.util.List;
 @Transactional
 public interface TransactionRecordRepository extends JpaRepository<TransactionRecord, Long> {
 
-    List<TransactionRecord> findTransactionRecordByDateBetweenOrderByDate(Date date1, Date date2);
+    List<TransactionRecord> findTransactionRecordByDateBetweenAndTypeOrderByDate(Date date1, Date date2, String inOrOut);
 }

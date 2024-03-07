@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class TransactionRecordService {
 
     private final TransactionRecordRepository transactionRecordRepository;
@@ -20,7 +21,6 @@ public class TransactionRecordService {
         this.transactionRecordRepository = transactionRecordRepository;
     }
 
-    @Transactional
     public Long findNewIncomeRecordId(CreateRecordRequestDto dto) {
         LocalDate date = LocalDate.of(dto.getYear(), dto.getMonth(), dto.getDate());
         return transactionRecordRepository
@@ -28,16 +28,15 @@ public class TransactionRecordService {
                 .getId();
     }
 
+    @Transactional(readOnly = true)
     public List<TransactionRecordDto> findIncomeRecords(int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
         List<TransactionRecord> transactionRecords = transactionRecordRepository
-                .findTransactionRecordByDateBetweenOrderByDate(Date.valueOf(startDate), Date.valueOf(endDate));
+                .findTransactionRecordByDateBetweenAndTypeOrderByDate(Date.valueOf(startDate), Date.valueOf(endDate), TransactionRecord.INCOME);
 
         List<TransactionRecordDto> transactionRecordDtos = new ArrayList<>();
-
         transactionRecords.forEach(record -> transactionRecordDtos.add(createTransactionRecordDto(record)));
-
         return transactionRecordDtos;
     }
 
@@ -52,7 +51,6 @@ public class TransactionRecordService {
                 .build();
     }
 
-    @Transactional
     public void delete(Long id) {
         TransactionRecord record = transactionRecordRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
@@ -97,5 +95,23 @@ public class TransactionRecordService {
         record.updateDate(dto.getDate());
         TransactionRecord saved = transactionRecordRepository.save(record);
         return createTransactionRecordDto(saved);
+    }
+
+    public Long findNewExpenditureRecordId(CreateRecordRequestDto dto) {
+        LocalDate date = LocalDate.of(dto.getYear(), dto.getMonth(), dto.getDate());
+        return transactionRecordRepository
+                .save(TransactionRecord.createExpenditureRecord(Date.valueOf(date)))
+                .getId();
+    }
+
+    public List<TransactionRecordDto> findExpenditureRecords(int year, int month) {
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+        List<TransactionRecord> transactionRecords = transactionRecordRepository
+                .findTransactionRecordByDateBetweenAndTypeOrderByDate(Date.valueOf(startDate), Date.valueOf(endDate), TransactionRecord.EXPENDITURE);
+
+        List<TransactionRecordDto> transactionRecordDtos = new ArrayList<>();
+        transactionRecords.forEach(record -> transactionRecordDtos.add(createTransactionRecordDto(record)));
+        return transactionRecordDtos;
     }
 }

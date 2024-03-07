@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/income")
-public class IncomeController {
+@RequestMapping("/expenditure")
+public class ExpenditureController {
 
     private final TransactionRecordService transactionRecordService;
 
-    public IncomeController(TransactionRecordService transactionRecordService) {
+    public ExpenditureController(TransactionRecordService transactionRecordService) {
         this.transactionRecordService = transactionRecordService;
     }
 
     @GetMapping
-    public String income() {
-        return "transactionrecords/income";
+    public String expenditure() {
+        return "transactionrecords/expenditure";
     }
 
     @GetMapping("/{year}/{month}")
     public ResponseEntity<List<TransactionRecordDto>> list(@PathVariable int year, @PathVariable int month) {
-        return ResponseEntity.ok(transactionRecordService.findIncomeRecords(year, month));
+        return ResponseEntity.ok(transactionRecordService.findExpenditureRecords(year, month));
     }
 
     @PostMapping
     public ResponseEntity<Long> createIncome(@RequestBody CreateRecordRequestDto dto) {
-        return ResponseEntity.ok(transactionRecordService.findNewIncomeRecordId(dto));
+        return ResponseEntity.ok(transactionRecordService.findNewExpenditureRecordId(dto));
     }
 
     @PutMapping("/category")

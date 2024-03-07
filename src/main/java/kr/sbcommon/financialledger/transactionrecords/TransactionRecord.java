@@ -6,9 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 
 @Entity
@@ -16,8 +13,10 @@ import java.sql.Date;
 @Getter
 public class TransactionRecord {
 
-    public static final String IN = "IN";
+    public static final String INCOME = "INCOME";
+    public static final String EXPENDITURE = "EXPENDITURE";
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -39,8 +38,8 @@ public class TransactionRecord {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(name = "in_or_out", nullable = false)
-    private String inOrOut;
+    @Column(name = "type", nullable = false)
+    private String type;
 
     @Column(name = "create_datetime", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +53,8 @@ public class TransactionRecord {
     public TransactionRecord() {
     }
 
-    private TransactionRecord(String inOrOut, Date date) {
-        this.inOrOut = inOrOut;
+    private TransactionRecord(String type, Date date) {
+        this.type = type;
         this.date = date;
         this.category = "1";
         this.amount = new BigDecimal(0);
@@ -64,11 +63,11 @@ public class TransactionRecord {
     }
 
     public static TransactionRecord createIncomeRecord(Date date) {
-        return new TransactionRecord(IN, date);
+        return new TransactionRecord(INCOME, date);
     }
 
-    public Long getId() {
-        return id;
+    public static TransactionRecord createExpenditureRecord(Date date) {
+        return new TransactionRecord(EXPENDITURE, date);
     }
 
     public void updateDate(Date date) {
